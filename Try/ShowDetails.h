@@ -10,8 +10,7 @@
 
 @class ShowDetails;
 @protocol ShowDetailsDelegate <NSObject>
-- (void) getUpdatedDataFrom:(ShowDetails*)showDetails whereDataIs:(NSString*)data;
-
+- (void) getUpdatedDataFrom:(ShowDetails*)showDetails whereDataIs:(NSString*)data atIndex:(long)indexOfElement;
 @end
 
 
@@ -19,7 +18,7 @@
 
 @property (nonatomic,weak) id<ShowDetailsDelegate> delegate;
 @property (nonatomic,retain) NSString *itemDetail;
+@property (nonatomic) long indexItem;
 
-//@property (nonatomic) NSInteger *index;
 @end
 

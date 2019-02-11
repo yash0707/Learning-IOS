@@ -12,6 +12,7 @@
 
 @interface ViewController () <UIAlertViewDelegate>
 @property (nonatomic) NSMutableArray *items;
+@property (strong, nonatomic) IBOutlet UITableView *itemTableView;
 
 @end
 
@@ -19,7 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewdidload VC");
-    self.items = @[@{@"name":@"item1"},@{@"name":@"item2"}].mutableCopy;
+    
+    _items = [NSMutableArray array];
+    _items[0] = [@{@"name" : @"item1"} mutableCopy];
+    _items[1] = [@{@"name" : @"item2"} mutableCopy];
+    
     self.navigationItem.title=@"To-Do-List";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
     
@@ -31,7 +36,7 @@
     NSLog(@"In receiveNotification %@",[notification name]);
     NSDictionary *resultDictionary = notification.userInfo;
     
-    NSDictionary *itemToPut = @{@"name":resultDictionary[@"item"]};
+    NSDictionary *itemToPut = @{@"name":resultDictionary[@"item"]}.mutableCopy;
     NSLog(@"In receiveNotification: %@",itemToPut[@"name"]);
     
     [self.items addObject:itemToPut];
@@ -45,29 +50,29 @@
     ShowDetails *showDetail = [[ShowDetails alloc] init];
     showDetail.itemDetail = self.items[indexPath.row][@"name"];
     NSLog(@"inside didSelect %@",self.items[indexPath.row][@"name"]);
-    
+    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
+    showDetail.indexItem = (long)indexPath.row;
     showDetail.delegate = self;
     
     [[self navigationController] pushViewController:showDetail animated:YES];
     NSLog(@"crossed push line");
    
-    
-    
-    
 //    NSMutableDictionary *item = [self.items[indexPath.row] mutableCopy];
 //    BOOL completed = [item[@"completed"] boolValue];
 //    NSLog(@"Completed: %d",completed);
 //    item[@"completed"] = @(!completed);
 //    self.items[indexPath.row] = item;
-//
+//33
 //    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 //    cell.accessoryType = ([item[@"completed"] boolValue])?    UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 #pragma mark - ShowDetailsDelegate Methods
-- (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data{
-    NSLog(@"returned Updated Data is: %@",data);
+- (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data atIndex:(long)indexOfElement{
+    NSLog(@"returned Updated Data is: %@ and Index is %ld",data,indexOfElement);
+    _items[indexOfElement][@"name"] = data;
+    [self.itemTableView reloadData];
     
 }
 
@@ -102,8 +107,8 @@
     return self.items.count;
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    static NSString *cellId = @"TodoListRow";
     NSLog(@"inside cellForRowAtIndexpath");
+    static NSString *cellId = @"TodoListRow";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
     //    if (cell == nil) {

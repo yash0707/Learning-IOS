@@ -35,6 +35,10 @@
                     <navigationItem key="navigationItem" title="Root View Controller" id="qHm-UT-5FW">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="EFN-Z3-TYd"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="itemTableView" destination="6CK-L2-93x" id="Xjf-Ih-IBf"/>
+                        <outlet property="tableView" destination="6CK-L2-93x" id="fbM-0r-0yL"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EN8-KC-grk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

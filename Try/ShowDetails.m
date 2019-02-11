@@ -49,6 +49,8 @@
     // Do any additional setup after loading the view.
     NSLog(@"Inside ShowDetail");
     NSLog(@"Received value is %@",_itemDetail);
+    NSLog(@"Received Index IS: %ld",_indexItem);
+    
     self.view.backgroundColor = [UIColor redColor];
     _itemTextField.text = _itemDetail;
     [self.view addSubview:_cancelButton];
@@ -66,7 +68,7 @@
 - (void) saveButtonMethod{
     NSLog(@"Inside SDsaveButtonMethod");
     NSString *itemToSentBack = _itemTextField.text;
-    [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack];
+    [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack atIndex:_indexItem];
     [[self navigationController] popViewControllerAnimated:YES];
     
 }
