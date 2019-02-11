@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShowDetails.h"
 
-@interface ViewController : UITableViewController
+@interface ViewController : UITableViewController<UITableViewDelegate ,UITableViewDataSource ,ShowDetailsDelegate>
 
 
 @end

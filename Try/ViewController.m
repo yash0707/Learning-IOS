@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ShowDetails.h"
 
 @interface ViewController () <UIAlertViewDelegate>
 @property (nonatomic) NSMutableArray *items;
@@ -14,34 +15,59 @@
 @end
 
 @implementation ViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.items = @[@{@"name":@"item1"},@{@"name":@"item2"}].mutableCopy;
     self.navigationItem.title=@"To-Do-List";
     NSLog(@"viewdidload");
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
-
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
+    
+//
+//
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify2" object:nil];
+    
 }
+//- (void) receiveNotification:(NSNotification*)notification{
+//    NSLog(@"In receiveNotification %@",[notification name]);
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    NSMutableDictionary *item = [self.items[indexPath.row] mutableCopy];
-    BOOL completed = [item[@"completed"] boolValue];
-    NSLog(@"Completed: %d",completed);
-    item[@"completed"] = @(!completed);
-    self.items[indexPath.row] = item;
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = ([item[@"completed"] boolValue])? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ShowDetails *showDetail = [[ShowDetails alloc] init];
+    showDetail.itemDetail = self.items[indexPath.row][@"name"];
+    NSLog(@"inside didSelect %@",self.items[indexPath.row][@"name"]);
+    [[self navigationController] pushViewController:showDetail animated:YES];
+    NSLog(@"crossed push line");
+   
+    
+//    NSMutableDictionary *item = [self.items[indexPath.row] mutableCopy];
+//    BOOL completed = [item[@"completed"] boolValue];
+//    NSLog(@"Completed: %d",completed);
+//    item[@"completed"] = @(!completed);
+//    self.items[indexPath.row] = item;
+//
+//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    cell.accessoryType = ([item[@"completed"] boolValue])?    UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+#pragma mark - ShowDetailsDelegate Methods
+- (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data{
+    NSLog(@"returned Updated Data is: %@",data);
+    
 }
 
 #pragma mark - Adding Item
 - (void) addNewitem:(UIBarButtonItem *)sender{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New To-Do-Item" message:@"Enter the name of new Todo Item" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add Item", nil ];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertView show];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New To-Do-Item" message:@"Enter the name of new Todo Item" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add Item", nil ];
+//    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    [alertView show];
+    
+    
+    
+    
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex!= alertView.cancelButtonIndex) {
