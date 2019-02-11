@@ -34,11 +34,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="qHm-UT-5FW">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="EFN-Z3-TYd">
-                            <connections>
-                                <segue destination="0nq-XB-ZCr" kind="show" id="jyz-6E-IMF"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="EFN-Z3-TYd"/>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EN8-KC-grk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -52,41 +48,9 @@
                     <view key="view" contentMode="scaleToFill" id="OYc-6N-sv7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pzh-Rv-TfQ">
-                                <rect key="frame" x="16" y="39" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uQd-2x-FMB">
-                                <rect key="frame" x="175" y="389" width="91" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <action selector="cancelButton:" destination="0nq-XB-ZCr" eventType="touchUpInside" id="Alc-0F-ULg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66F-pz-0Gr">
-                                <rect key="frame" x="88" y="389" width="53" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="Add"/>
-                                <connections>
-                                    <action selector="addButton:" destination="0nq-XB-ZCr" eventType="touchUpInside" id="R5A-hr-X47"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="RFC-MT-en4"/>
                     </view>
-                    <connections>
-                        <outlet property="addButton" destination="66F-pz-0Gr" id="3As-1u-nh0"/>
-                        <outlet property="cancelButton" destination="uQd-2x-FMB" id="Q6O-xD-htt"/>
-                        <outlet property="itemEditbox" destination="Pzh-Rv-TfQ" id="kQC-Ro-Go1"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A94-Wc-O1u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

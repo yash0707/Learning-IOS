@@ -23,7 +23,7 @@
 }
 
 - (IBAction)saveButton:(id)sender {
-    NSString *itemToSentBack = self.textLabel.text;
+    NSString *itemToSentBack = @"Returning data through delegates";
     [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack];
 }
 - (IBAction)cancelButton:(id)sender {

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ShowDetails.h"
+#import "AddItemViewController.h"
 
 @interface ViewController () <UIAlertViewDelegate>
 @property (nonatomic) NSMutableArray *items;
@@ -20,18 +21,27 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.items = @[@{@"name":@"item1"},@{@"name":@"item2"}].mutableCopy;
     self.navigationItem.title=@"To-Do-List";
-    NSLog(@"viewdidload");
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
+    NSLog(@"viewdidload VC");
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
     
 //
 //
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify2" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
     
 }
-//- (void) receiveNotification:(NSNotification*)notification{
-//    NSLog(@"In receiveNotification %@",[notification name]);
-//}
+- (void) receiveNotification:(NSNotification*)notification{
+    NSLog(@"In receiveNotification %@",[notification name]);
+    NSDictionary *resultDictionary = notification.userInfo;
+    
+    NSDictionary *itemToPut = @{@"name":resultDictionary[@"item"]};
+    NSLog(@"In receiveNotification: %@",itemToPut[@"name"]);
+    
+    [self.items addObject:itemToPut];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self navigationController]popViewControllerAnimated:YES];
+    
+    
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
@@ -64,11 +74,10 @@
 //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New To-Do-Item" message:@"Enter the name of new Todo Item" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add Item", nil ];
 //    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
 //    [alertView show];
-    
-    
-    
-    
+    AddItemViewController *addItemViewController = [[AddItemViewController alloc] init];
+    [[self navigationController] pushViewController:addItemViewController animated:YES];
 }
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex!= alertView.cancelButtonIndex) {
         UITextField *itemNameField = [alertView textFieldAtIndex:0];
