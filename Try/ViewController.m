@@ -18,14 +18,12 @@
 @implementation ViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"viewdidload VC");
     self.items = @[@{@"name":@"item1"},@{@"name":@"item2"}].mutableCopy;
     self.navigationItem.title=@"To-Do-List";
-    NSLog(@"viewdidload VC");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
     
-//
-//
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
     
 }
@@ -40,7 +38,6 @@
     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self navigationController]popViewControllerAnimated:YES];
     
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
@@ -48,9 +45,14 @@
     ShowDetails *showDetail = [[ShowDetails alloc] init];
     showDetail.itemDetail = self.items[indexPath.row][@"name"];
     NSLog(@"inside didSelect %@",self.items[indexPath.row][@"name"]);
+    
+    showDetail.delegate = self;
+    
     [[self navigationController] pushViewController:showDetail animated:YES];
     NSLog(@"crossed push line");
    
+    
+    
     
 //    NSMutableDictionary *item = [self.items[indexPath.row] mutableCopy];
 //    BOOL completed = [item[@"completed"] boolValue];
@@ -69,6 +71,8 @@
     
 }
 
+
+
 #pragma mark - Adding Item
 - (void) addNewitem:(UIBarButtonItem *)sender{
 //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New To-Do-Item" message:@"Enter the name of new Todo Item" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add Item", nil ];
@@ -78,15 +82,15 @@
     [[self navigationController] pushViewController:addItemViewController animated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex!= alertView.cancelButtonIndex) {
-        UITextField *itemNameField = [alertView textFieldAtIndex:0];
-        NSString *itemName = itemNameField.text;
-        NSDictionary *itemToPut = @{@"name":itemName};
-        [self.items addObject:itemToPut];
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    if (buttonIndex!= alertView.cancelButtonIndex) {
+//        UITextField *itemNameField = [alertView textFieldAtIndex:0];
+//        NSString *itemName = itemNameField.text;
+//        NSDictionary *itemToPut = @{@"name":itemName};
+//        [self.items addObject:itemToPut];
+//        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    }
+//}
 
 #pragma mark - UITableView Data Source Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

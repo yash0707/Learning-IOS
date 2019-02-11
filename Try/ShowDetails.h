@@ -16,8 +16,10 @@
 
 
 @interface ShowDetails : UIViewController
+
 @property (nonatomic,weak) id<ShowDetailsDelegate> delegate;
 @property (nonatomic,retain) NSString *itemDetail;
+
 //@property (nonatomic) NSInteger *index;
 @end
 
