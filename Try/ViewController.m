@@ -9,10 +9,14 @@
 #import "ViewController.h"
 #import "ShowDetails.h"
 #import "AddItemViewController.h"
+#import "ItemTableViewCell.h"
 
-@interface ViewController () <UIAlertViewDelegate>
+static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
+
+@interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate>
+
 @property (nonatomic) NSMutableArray *items;
-@property (strong, nonatomic) IBOutlet UITableView *itemTableView;
+@property (strong, nonatomic) UITableView *itemTableView;
 
 @end
 
@@ -25,8 +29,7 @@
     _items[0] = [@{@"name" : @"item1"} mutableCopy];
     _items[1] = [@{@"name" : @"item2"} mutableCopy];
     
-    for(int i=0;i<100;i++)
-    {
+    for(int i=0;i<100;i++) {
         NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
         [_items addObject : [@{@"name":item} mutableCopy]];
     }
@@ -34,10 +37,21 @@
     self.navigationItem.title=@"To-Do-List";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
     
+    _itemTableView = [[UITableView alloc] init];
+    _itemTableView.delegate = self;
+    _itemTableView.dataSource = self;
+    [self.itemTableView registerClass:[ItemTableViewCell class] forCellReuseIdentifier:kCellReuseIdentifier];
     
+    [self.view addSubview:_itemTableView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
     
 }
+
+- (void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    _itemTableView.frame = self.view.bounds;
+}
+
 - (void) receiveNotification:(NSNotification*)notification{
     NSLog(@"In receiveNotification %@",[notification name]);
     NSDictionary *resultDictionary = notification.userInfo;
@@ -46,10 +60,12 @@
     NSLog(@"In receiveNotification: %@",itemToPut[@"name"]);
     
     [self.items addObject:itemToPut];
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.itemTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self navigationController]popViewControllerAnimated:YES];
     
 }
+
+#pragma mark - TableView Delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
@@ -74,7 +90,9 @@
 //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
+
 #pragma mark - ShowDetailsDelegate Methods
+
 - (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data atIndex:(long)indexOfElement{
     NSLog(@"returned Updated Data is: %@ and Index is %ld",data,indexOfElement);
     _items[indexOfElement][@"name"] = data;
@@ -82,69 +100,31 @@
     
 }
 
-
-
 #pragma mark - Adding Item
+
 - (void) addNewitem:(UIBarButtonItem *)sender{
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"New To-Do-Item" message:@"Enter the name of new Todo Item" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add Item", nil ];
-//    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-//    [alertView show];
     AddItemViewController *addItemViewController = [[AddItemViewController alloc] init];
     [[self navigationController] pushViewController:addItemViewController animated:YES];
 }
 
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-//    if (buttonIndex!= alertView.cancelButtonIndex) {
-//        UITextField *itemNameField = [alertView textFieldAtIndex:0];
-//        NSString *itemName = itemNameField.text;
-//        NSDictionary *itemToPut = @{@"name":itemName};
-//        [self.items addObject:itemToPut];
-//        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    }
-//}
-
 #pragma mark - UITableView Data Source Methods
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     NSLog(@"sections");
     return 1;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSLog(@"Rows");
     return self.items.count;
 }
 
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    NSLog(@"inside cellForRowAtIndexpath");
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        cell = [[UITableViewCell alloc] init];
-//        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-//        cell.frame = CGRectMake(80, 150.0, width, 40.0);
-        
-    }
-    
-    NSDictionary *item = _items[indexPath.row];
-    cell.textLabel.text = item[@"name"];
+    ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+    ItemTableViewCellModel *model = [ItemTableViewCellModel new];
+    model.titleText = _items[indexPath.row][@"name"];
+    [cell updateCellWithMode:model];
     return cell;
-    
-    
-//    static NSString *cellId = @"TodoListRow";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
-//    //    if (cell == nil) {
-//    //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//    //    }
-//    NSDictionary *item = _items[indexPath.row];
-//    cell.textLabel.text = item[@"name"];
-//    if ([item[@"completed"] boolValue]) {
-//        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-//    }else{
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    }
-//    return cell;
 }
+
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ShowDetails.h"
 
-@interface ViewController : UITableViewController<UITableViewDelegate ,UITableViewDataSource ,ShowDetailsDelegate>
+@interface ViewController : UIViewController
 
 
 @end
