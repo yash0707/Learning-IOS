@@ -25,6 +25,12 @@
     _items[0] = [@{@"name" : @"item1"} mutableCopy];
     _items[1] = [@{@"name" : @"item2"} mutableCopy];
     
+    for(int i=0;i<100;i++)
+    {
+        NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
+        [_items addObject : [@{@"name":item} mutableCopy]];
+    }
+    
     self.navigationItem.title=@"To-Do-List";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
     
@@ -102,25 +108,43 @@
     NSLog(@"sections");
     return 1;
 }
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSLog(@"Rows");
     return self.items.count;
 }
+
+
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     NSLog(@"inside cellForRowAtIndexpath");
-    static NSString *cellId = @"TodoListRow";
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//        cell = [[UITableViewCell alloc] init];
+//        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+//        cell.frame = CGRectMake(80, 150.0, width, 40.0);
+        
+    }
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
-    //    if (cell == nil) {
-    //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    //    }
     NSDictionary *item = _items[indexPath.row];
     cell.textLabel.text = item[@"name"];
-    if ([item[@"completed"] boolValue]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }else{
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
     return cell;
+    
+    
+//    static NSString *cellId = @"TodoListRow";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
+//    //    if (cell == nil) {
+//    //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+//    //    }
+//    NSDictionary *item = _items[indexPath.row];
+//    cell.textLabel.text = item[@"name"];
+//    if ([item[@"completed"] boolValue]) {
+//        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+//    }else{
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//    return cell;
 }
 @end

@@ -13,32 +13,9 @@
         <scene sceneID="vAk-Jc-36v">
             <objects>
                 <tableViewController id="GsC-9B-wKA" customClass="ViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6CK-L2-93x">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoListRow" id="OBX-Xr-0Md">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OBX-Xr-0Md" id="Igq-we-GPp">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="GsC-9B-wKA" id="4OP-kq-CYg"/>
-                            <outlet property="delegate" destination="GsC-9B-wKA" id="em8-mc-aSJ"/>
-                        </connections>
-                    </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="qHm-UT-5FW">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="EFN-Z3-TYd"/>
                     </navigationItem>
-                    <connections>
-                        <outlet property="itemTableView" destination="6CK-L2-93x" id="Xjf-Ih-IBf"/>
-                        <outlet property="tableView" destination="6CK-L2-93x" id="fbM-0r-0yL"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EN8-KC-grk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
