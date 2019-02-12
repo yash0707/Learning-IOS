@@ -28,8 +28,8 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
     NSLog(@"viewdidload VC");
     
     _items = [NSMutableArray array];
-    _items[0] = [@{@"name" : @"item1"} mutableCopy];
-    _items[1] = [@{@"name" : @"item2"} mutableCopy];
+//    _items[0] = [@{@"name" : @"item1"} mutableCopy];
+//    _items[1] = [@{@"name" : @"item2"} mutableCopy];
     
     for(int i=0;i<100;i++) {
         NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
