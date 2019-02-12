@@ -15,7 +15,6 @@ static CGFloat const kImageViewWidth = 30;
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UITextView *taskTextView;
-@property (nonatomic, strong) UIImageView *tickImageView;
 
 @end
 
@@ -36,7 +35,7 @@ static CGFloat const kImageViewWidth = 30;
     [super layoutSubviews];
     CGSize selfSize = self.frame.size;
     _containerView.frame = CGRectMake(10, 5, selfSize.width - 20, selfSize.height - 10);
-    _tickImageView.frame = CGRectMake((_containerView.frame.size.width-20-kImageViewWidth), (_containerView.frame.size.height - kImageViewHeight)/2, kImageViewWidth, kImageViewHeight);
+    _tickButton.frame = CGRectMake((_containerView.frame.size.width-20-kImageViewWidth), (_containerView.frame.size.height - kImageViewHeight)/2, kImageViewWidth, kImageViewHeight);
     _taskTextView.frame = CGRectMake(0, 0, 100, CGRectGetHeight(_containerView.frame));
     
 }
@@ -46,9 +45,9 @@ static CGFloat const kImageViewWidth = 30;
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model {
     _taskTextView.text = model.titleText;
     if(model.isSelected){
-        // change to selected image
+        [_tickButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
     } else {
-        // change to default view
+        [_tickButton setImage:[UIImage imageNamed:@"unchecked"] forState:UIControlStateNormal];
     }
 }
 
@@ -62,12 +61,12 @@ static CGFloat const kImageViewWidth = 30;
     _taskTextView.backgroundColor = [UIColor redColor];
     // set properties of textview
     
-    _tickImageView = [[UIImageView alloc] init];
-    _tickImageView.backgroundColor = [UIColor cyanColor];
+    _tickButton = [[UIButton alloc] init];
+    _tickButton.backgroundColor = [UIColor cyanColor];
     // set properties of imageView
     
     [_containerView addSubview:_taskTextView];
-    [_containerView addSubview:_tickImageView];
+    [_containerView addSubview:_tickButton];
     [self addSubview:_containerView];
     
 }

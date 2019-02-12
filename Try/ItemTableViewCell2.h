@@ -18,6 +18,7 @@
 @interface ItemTableViewCell2 : UITableViewCell
 
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model;
+@property (nonatomic, strong) UIButton *tickButton;
 
 @end
 

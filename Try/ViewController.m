@@ -33,7 +33,7 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
     
     for(int i=0;i<100;i++) {
         NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
-        [_items addObject : [@{@"name":item} mutableCopy]];
+        [_items addObject : [@{@"name":item,@"checked":@"false"} mutableCopy]];
     }
     
     self.navigationItem.title=@"To-Do-List";
@@ -124,16 +124,47 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if(indexPath.row % 2 == 0){
         ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+        [cell.tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.tickButton.layer setValue:[NSMutableString stringWithFormat:@"%ld",indexPath.row] forKey:@"index"];
         ItemTableViewCellModel *model = [ItemTableViewCellModel new];
         model.titleText = _items[indexPath.row][@"name"];
+        if([_items[indexPath.row][@"checked"] isEqualToString:@"false"])
+        {
+            model.isSelected = false;
+        }else{
+            model.isSelected = true;
+        }
+       // model.isSelected = _items[indexPath.row][@"checked"];
         [cell updateCellWithModel:model];
         return cell;
     }
     ItemTableViewCell2 *cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
+    [cell2.tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
+    [cell2.tickButton.layer setValue:[NSMutableString stringWithFormat:@"%ld",indexPath.row] forKey:@"index"];
     ItemTableViewCellModel2 *model = [ItemTableViewCellModel2 new];
     model.titleText = _items[indexPath.row][@"name"];
+    if([_items[indexPath.row][@"checked"] isEqualToString:@"false"])
+    {
+        model.isSelected = false;
+    }else{
+        model.isSelected = true;
+    }
     [cell2 updateCellWithModel:model];
     return cell2;
+}
+
+#pragma mark - private methods
+
+-(void) changeSelectedState:(UIButton*)sender{
+    NSNumber *buttonIndex = [sender.layer valueForKey:@"index"];
+    NSLog(@"getting index as: %@",buttonIndex);
+    if([[_items objectAtIndex:[buttonIndex integerValue]][@"checked"] isEqualToString:@"false"]){
+        [_items objectAtIndex:[buttonIndex integerValue]][@"checked"] = @"true";
+    }
+    else{
+        [_items objectAtIndex:[buttonIndex integerValue]][@"checked"] = @"false";
+    }
+    [self.itemTableView reloadData];
 }
 
 @end

@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ItemTableViewCell : UITableViewCell
 
 - (void)updateCellWithModel:(ItemTableViewCellModel *)model;
-
+@property (nonatomic, strong) UIButton *tickButton;
 @end
 
 NS_ASSUME_NONNULL_END
