@@ -10,8 +10,10 @@
 #import "ShowDetails.h"
 #import "AddItemViewController.h"
 #import "ItemTableViewCell.h"
+#import "ItemTableViewCell2.h"
 
 static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
+static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 
 @interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate>
 
@@ -41,7 +43,7 @@ static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
     _itemTableView.delegate = self;
     _itemTableView.dataSource = self;
     [self.itemTableView registerClass:[ItemTableViewCell class] forCellReuseIdentifier:kCellReuseIdentifier];
-    
+    [self.itemTableView registerClass:[ItemTableViewCell2 class] forCellReuseIdentifier:kCellReuseIdentifier2];
     [self.view addSubview:_itemTableView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
     
@@ -120,11 +122,18 @@ static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
-    ItemTableViewCellModel *model = [ItemTableViewCellModel new];
+    if(indexPath.row % 2 == 0){
+        ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+        ItemTableViewCellModel *model = [ItemTableViewCellModel new];
+        model.titleText = _items[indexPath.row][@"name"];
+        [cell updateCellWithModel:model];
+        return cell;
+    }
+    ItemTableViewCell2 *cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
+    ItemTableViewCellModel2 *model = [ItemTableViewCellModel2 new];
     model.titleText = _items[indexPath.row][@"name"];
-    [cell updateCellWithMode:model];
-    return cell;
+    [cell2 updateCellWithModel:model];
+    return cell2;
 }
 
 @end

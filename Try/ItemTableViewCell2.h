@@ -1,5 +1,5 @@
 //
-//  ItemTableViewCell.h
+//  ItemTableViewCell2.h
 //  Try
 //
 //  Created by Admin on 12/02/19.
@@ -8,21 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-
-@interface ItemTableViewCellModel : NSObject
+@interface ItemTableViewCellModel2 : NSObject
 
 @property (nonatomic, strong) NSString *titleText;
 @property (nonatomic, assign) BOOL isSelected;
 
 @end
 
+@interface ItemTableViewCell2 : UITableViewCell
 
-@interface ItemTableViewCell : UITableViewCell
-
-- (void)updateCellWithModel:(ItemTableViewCellModel *)model;
+- (void)updateCellWithModel:(ItemTableViewCellModel2 *)model;
 
 @end
 
-NS_ASSUME_NONNULL_END
