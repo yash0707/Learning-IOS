@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ItemTableViewCellDelegate2;
+
 @interface ItemTableViewCellModel2 : NSObject
 
 @property (nonatomic, strong) NSString *titleText;
@@ -17,8 +19,13 @@
 
 @interface ItemTableViewCell2 : UITableViewCell
 
+@property (nonatomic,weak) id<ItemTableViewCellDelegate2> delegate2;
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model;
-@property (nonatomic, strong) UIButton *tickButton;
 
 @end
 
+@protocol ItemTableViewCellDelegate2 <NSObject>
+
+- (void) updateCellSelectedStatus2:(ItemTableViewCell2*)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
+
+@end

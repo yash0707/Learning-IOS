@@ -14,11 +14,11 @@
 
 static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
 static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
+static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
-@interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate>
+@interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate, ItemTableViewCellDelegate>
 
 @property (nonatomic) NSMutableArray *items;
-@property (strong, nonatomic) UITableView *itemTableView;
 
 @end
 
@@ -26,16 +26,16 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewdidload VC");
-    
     _items = [NSMutableArray array];
-//    _items[0] = [@{@"name" : @"item1"} mutableCopy];
+    //_items[0] = [@{@"item1":@"false"} mutableCopy];
 //    _items[1] = [@{@"name" : @"item2"} mutableCopy];
-    
+//
     for(int i=0;i<100;i++) {
         NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
-        [_items addObject : [@{@"name":item,@"checked":@"false"} mutableCopy]];
+        [_items addObject:[@{item:@"false"}mutableCopy]];
+           // [_items addObject : [@{@"name":item,@"checked":@(NO) , [NSNUmber numberWSithBool:NO]]} mutableCopy]];
     }
-    
+   // _items = [[[NSUserDefaults standardUserDefaults] objectForKey:kNSUserDefaultsKey] mutableCopy] ?: [NSMutableArray array];
     self.navigationItem.title=@"To-Do-List";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
     
@@ -49,20 +49,28 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
     
 }
 
-- (void)viewWillLayoutSubviews{
+-(void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     _itemTableView.frame = self.view.bounds;
 }
 
-- (void) receiveNotification:(NSNotification*)notification{
+-(void)viewWillDisappear:(BOOL)animated{
+   // [[NSUserDefaults standardUserDefaults] setObject:[_items copy] forKey:kNSUserDefaultsKey];
+}
+
+-(void) receiveNotification:(NSNotification*)notification{
     NSLog(@"In receiveNotification %@",[notification name]);
     NSDictionary *resultDictionary = notification.userInfo;
     
-    NSDictionary *itemToPut = @{@"name":resultDictionary[@"item"]}.mutableCopy;
-    NSLog(@"In receiveNotification: %@",itemToPut[@"name"]);
+    //NSDictionary *itemToPut = @{@"name":resultDictionary[@"item"],@"checked":@"false"}.mutableCopy;
+    NSDictionary *itemToPut = @{resultDictionary[@"item"]:@"false"}.mutableCopy;
+    NSLog(@"In receiveNotification: %@",itemToPut[@"item"]);
     
     [self.items addObject:itemToPut];
+   // [self.itemTableView reloadData];
+  
     [self.itemTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
     [[self navigationController]popViewControllerAnimated:YES];
     
 }
@@ -72,11 +80,13 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
     ShowDetails *showDetail = [[ShowDetails alloc] init];
-    showDetail.itemDetail = self.items[indexPath.row][@"name"];
-    NSLog(@"inside didSelect %@",self.items[indexPath.row][@"name"]);
-    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
+    showDetail.itemDetail = ((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject;
+    NSLog(@"inside didSelect %@",((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject);
+//    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
     showDetail.indexItem = (long)indexPath.row;
     showDetail.delegate = self;
+    
+
     
     [[self navigationController] pushViewController:showDetail animated:YES];
     NSLog(@"crossed push line");
@@ -92,12 +102,50 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
+#pragma mark - ItemTableViewCellDelegates Methods
 
+- (void) updateCellSelectedStatus:(ItemTableViewCell *)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
+    NSLog(@"Delegates-ITVC: updateCellSelected :- %@",_items);
+    for(int i=0;i<_items.count;i++){
+        NSDictionary *dict = _items[i];
+        NSString *currentKey = dict.allKeys.firstObject;
+        if ([currentKey isEqualToString:data]) {
+            if(selectedStatusToSentBack){
+                NSDictionary *newDictionary = @{data:@"true"};
+                _items[i] = newDictionary;
+            }else{
+                NSDictionary *newDictionary = @{data:@"false"};
+                _items[i] = newDictionary;
+            }
+        }
+    }
+}
+#pragma mark - ItemTableViewCellDelegates2 Methods
+
+- (void) updateCellSelectedStatus2:(ItemTableViewCell2 *)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
+    NSLog(@"Delegates-ITVC2: updateCellSelected:- %@",_items);
+    for(int i=0;i<_items.count;i++){
+        NSDictionary *dict = _items[i];
+        NSString *currentKey = dict.allKeys.firstObject;
+        if ([currentKey isEqualToString:data]) {
+            if(selectedStatusToSentBack){
+                NSDictionary *newDictionary = @{data:@"true"};
+                _items[i] = newDictionary;
+            }else{
+                NSDictionary *newDictionary = @{data:@"false"};
+                _items[i] = newDictionary;
+            }
+        }
+    }
+}
 #pragma mark - ShowDetailsDelegate Methods
 
 - (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data atIndex:(long)indexOfElement{
     NSLog(@"returned Updated Data is: %@ and Index is %ld",data,indexOfElement);
-    _items[indexOfElement][@"name"] = data;
+    NSDictionary *currentDictionary = _items[indexOfElement];
+    NSDictionary *newDictionary = @{data:currentDictionary.allValues.firstObject};
+    _items[indexOfElement] = newDictionary;
+    //_items[indexOfElement][@"name"] = data;
     [self.itemTableView reloadData];
     
 }
@@ -124,11 +172,12 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if(indexPath.row % 2 == 0){
         ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
-        [cell.tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.tickButton.layer setValue:[NSMutableString stringWithFormat:@"%ld",indexPath.row] forKey:@"index"];
+        cell.delegate = self;
         ItemTableViewCellModel *model = [ItemTableViewCellModel new];
-        model.titleText = _items[indexPath.row][@"name"];
-        if([_items[indexPath.row][@"checked"] isEqualToString:@"false"])
+        model.titleText = ((NSDictionary *)_items[indexPath.row]).allKeys.firstObject;
+        model.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
+
+        if([((NSDictionary *)self.items[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
         {
             model.isSelected = false;
         }else{
@@ -139,11 +188,11 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
         return cell;
     }
     ItemTableViewCell2 *cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
-    [cell2.tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
-    [cell2.tickButton.layer setValue:[NSMutableString stringWithFormat:@"%ld",indexPath.row] forKey:@"index"];
+    cell2.delegate2 = self;
     ItemTableViewCellModel2 *model = [ItemTableViewCellModel2 new];
-    model.titleText = _items[indexPath.row][@"name"];
-    if([_items[indexPath.row][@"checked"] isEqualToString:@"false"])
+    model.titleText = ((NSDictionary *)_items[indexPath.row]).allKeys.firstObject;
+    model.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
+    if([((NSDictionary *)self.items[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
     {
         model.isSelected = false;
     }else{
@@ -153,18 +202,5 @@ static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
     return cell2;
 }
 
-#pragma mark - private methods
-
--(void) changeSelectedState:(UIButton*)sender{
-    NSNumber *buttonIndex = [sender.layer valueForKey:@"index"];
-    NSLog(@"getting index as: %@",buttonIndex);
-    if([[_items objectAtIndex:[buttonIndex integerValue]][@"checked"] isEqualToString:@"false"]){
-        [_items objectAtIndex:[buttonIndex integerValue]][@"checked"] = @"true";
-    }
-    else{
-        [_items objectAtIndex:[buttonIndex integerValue]][@"checked"] = @"false";
-    }
-    [self.itemTableView reloadData];
-}
 
 @end

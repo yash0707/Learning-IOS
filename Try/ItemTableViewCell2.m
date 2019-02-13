@@ -15,6 +15,9 @@ static CGFloat const kImageViewWidth = 30;
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UITextView *taskTextView;
+@property (nonatomic, strong) UIButton *tickButton;
+@property (nonatomic,assign) BOOL isCurrentlySelected;
+
 
 @end
 
@@ -44,9 +47,12 @@ static CGFloat const kImageViewWidth = 30;
 
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model {
     _taskTextView.text = model.titleText;
+    
     if(model.isSelected){
+        _isCurrentlySelected = YES;
         [_tickButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
     } else {
+        _isCurrentlySelected = NO;
         [_tickButton setImage:[UIImage imageNamed:@"unchecked"] forState:UIControlStateNormal];
     }
 }
@@ -59,15 +65,33 @@ static CGFloat const kImageViewWidth = 30;
     
     _taskTextView= [[UITextView alloc] init];
     _taskTextView.backgroundColor = [UIColor redColor];
+    [_taskTextView setEditable:NO];
+
     // set properties of textview
     
     _tickButton = [[UIButton alloc] init];
     _tickButton.backgroundColor = [UIColor cyanColor];
+    [_tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
+
     // set properties of imageView
     
     [_containerView addSubview:_taskTextView];
     [_containerView addSubview:_tickButton];
     [self addSubview:_containerView];
+    
+}
+
+-(void) changeSelectedState:(UIButton*)sender{
+    if(_isCurrentlySelected){
+        _isCurrentlySelected = NO;
+        [_tickButton setImage:[UIImage imageNamed:@"unchecked"] forState:UIControlStateNormal];
+    } else {
+        _isCurrentlySelected = YES;
+        [_tickButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
+    }
+    
+    BOOL selectedStatusToSentBack = !_isCurrentlySelected;
+    [self.delegate2 updateCellSelectedStatus2:self whereStatusIs:selectedStatusToSentBack forItem:_taskTextView.text];
     
 }
 

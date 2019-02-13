@@ -11,6 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+
+@protocol ItemTableViewCellDelegate;
+
 @interface ItemTableViewCellModel : NSObject
 
 @property (nonatomic, strong) NSString *titleText;
@@ -18,11 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @interface ItemTableViewCell : UITableViewCell
 
+@property (nonatomic,weak) id<ItemTableViewCellDelegate> delegate;
 - (void)updateCellWithModel:(ItemTableViewCellModel *)model;
-@property (nonatomic, strong) UIButton *tickButton;
+
+@end
+
+@protocol ItemTableViewCellDelegate <NSObject>
+
+- (void) updateCellSelectedStatus:(ItemTableViewCell*)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
+
 @end
 
 NS_ASSUME_NONNULL_END
