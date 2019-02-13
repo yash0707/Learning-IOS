@@ -90,16 +90,6 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     
     [[self navigationController] pushViewController:showDetail animated:YES];
     NSLog(@"crossed push line");
-   
-//    NSMutableDictionary *item = [self.items[indexPath.row] mutableCopy];
-//    BOOL completed = [item[@"completed"] boolValue];
-//    NSLog(@"Completed: %d",completed);
-//    item[@"completed"] = @(!completed);
-//    self.items[indexPath.row] = item;
-//33
-//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    cell.accessoryType = ([item[@"completed"] boolValue])?    UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 #pragma mark - ItemTableViewCellDelegates Methods

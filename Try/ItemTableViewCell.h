@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ItemTableViewCell : UITableViewCell
 
-@property (nonatomic,weak) id<ItemTableViewCellDelegate> delegate;
+@property (nonatomic,weak) id delegate;
 - (void)updateCellWithModel:(ItemTableViewCellModel *)model;
 
 @end
