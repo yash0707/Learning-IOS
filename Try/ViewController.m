@@ -19,6 +19,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 @interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate, ItemTableViewCellDelegate>
 
 @property (nonatomic) NSMutableArray *items;
+@property (nonatomic)NSMutableArray *doneItems;
 
 @end
 
@@ -27,14 +28,15 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     [super viewDidLoad];
     NSLog(@"viewdidload VC");
     _items = [NSMutableArray array];
-    //_items[0] = [@{@"item1":@"false"} mutableCopy];
-//    _items[1] = [@{@"name" : @"item2"} mutableCopy];
-//
-    for(int i=0;i<100;i++) {
+    _doneItems = [NSMutableArray array];
+
+    for(int i=0;i<5;i++) {
         NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
         [_items addObject:[@{item:@"false"}mutableCopy]];
            // [_items addObject : [@{@"name":item,@"checked":@(NO) , [NSNUmber numberWSithBool:NO]]} mutableCopy]];
     }
+    
+    
    // _items = [[[NSUserDefaults standardUserDefaults] objectForKey:kNSUserDefaultsKey] mutableCopy] ?: [NSMutableArray array];
     self.navigationItem.title=@"To-Do-List";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
@@ -78,65 +80,117 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 #pragma mark - TableView Delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    
-    ShowDetails *showDetail = [[ShowDetails alloc] init];
-    showDetail.itemDetail = ((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject;
-    NSLog(@"inside didSelect %@",((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject);
-//    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
-    showDetail.indexItem = (long)indexPath.row;
-    showDetail.delegate = self;
-    
-
-    
-    [[self navigationController] pushViewController:showDetail animated:YES];
-    NSLog(@"crossed push line");
+    // check for section.
+    if (indexPath.section == 0) {
+        ShowDetails *showDetail = [[ShowDetails alloc] init];
+        showDetail.itemDetail = ((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject;
+        NSLog(@"inside didSelect %@",((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject);
+        //    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
+        showDetail.indexPathOfElement = indexPath;
+        showDetail.delegate = self;
+        
+        [[self navigationController] pushViewController:showDetail animated:YES];
+        NSLog(@"crossed push line");
+    }
+    else if (indexPath.section ==1)
+    {
+        ShowDetails *showDetail = [[ShowDetails alloc] init];
+        showDetail.itemDetail = ((NSDictionary *)_doneItems[indexPath.row]).allKeys.firstObject;
+        NSLog(@"inside didSelect %@",((NSDictionary *)_doneItems[indexPath.row]).allKeys.firstObject);
+        //    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
+        showDetail.indexPathOfElement = indexPath;
+        showDetail.delegate = self;
+        
+        [[self navigationController] pushViewController:showDetail animated:YES];
+        NSLog(@"crossed push line");
+    }
     
 }
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40)];
+    headerView.backgroundColor = section == 0 ? [[UIColor redColor] colorWithAlphaComponent:0.5] : [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
+    textLabel.text = section == 0 ? @"TODO" : @"DONE";
+    [headerView addSubview:textLabel];
+    return headerView;
+}
+
 #pragma mark - ItemTableViewCellDelegates Methods
 
 - (void) updateCellSelectedStatus:(ItemTableViewCell *)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
     NSLog(@"Delegates-ITVC: updateCellSelected :- %@",_items);
-    for(int i=0;i<_items.count;i++){
-        NSDictionary *dict = _items[i];
-        NSString *currentKey = dict.allKeys.firstObject;
-        if ([currentKey isEqualToString:data]) {
-            if(selectedStatusToSentBack){
-                NSDictionary *newDictionary = @{data:@"true"};
-                _items[i] = newDictionary;
-            }else{
-                NSDictionary *newDictionary = @{data:@"false"};
-                _items[i] = newDictionary;
+    if(selectedStatusToSentBack){
+        for(int i=0;i<_items.count;i++){
+            NSDictionary *dict = _items[i];
+            NSString *currentKey = dict.allKeys.firstObject;
+            if ([currentKey isEqualToString:data]) {
+                    NSDictionary *newDictionary = @{data:@"true"};
+                    [_items removeObjectAtIndex:i];
+                    [_doneItems addObject:newDictionary];
+                    [_itemTableView reloadData];
             }
         }
+    }else{
+        for(int i=0;i<_doneItems.count;i++){
+            NSDictionary *dict = _doneItems[i];
+            NSString *currentKey = dict.allKeys.firstObject;
+            if ([currentKey isEqualToString:data]) {
+                NSDictionary *newDictionary = @{data:@"false"};
+                [_items addObject:newDictionary];
+                [_doneItems removeObjectAtIndex:i];
+                [_itemTableView reloadData];
+            }
+        }
+
     }
 }
+
 #pragma mark - ItemTableViewCellDelegates2 Methods
 
 - (void) updateCellSelectedStatus2:(ItemTableViewCell2 *)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
     NSLog(@"Delegates-ITVC2: updateCellSelected:- %@",_items);
-    for(int i=0;i<_items.count;i++){
-        NSDictionary *dict = _items[i];
-        NSString *currentKey = dict.allKeys.firstObject;
-        if ([currentKey isEqualToString:data]) {
-            if(selectedStatusToSentBack){
+    if(selectedStatusToSentBack){
+        for(int i=0;i<_items.count;i++){
+            NSDictionary *dict = _items[i];
+            NSString *currentKey = dict.allKeys.firstObject;
+            if ([currentKey isEqualToString:data]) {
                 NSDictionary *newDictionary = @{data:@"true"};
-                _items[i] = newDictionary;
-            }else{
-                NSDictionary *newDictionary = @{data:@"false"};
-                _items[i] = newDictionary;
+                [_items removeObjectAtIndex:i];
+                [_doneItems addObject:newDictionary];
+                [_itemTableView reloadData];
             }
         }
+    }else{
+        for(int i=0;i<_doneItems.count;i++){
+            NSDictionary *dict = _doneItems[i];
+            NSString *currentKey = dict.allKeys.firstObject;
+            if ([currentKey isEqualToString:data]) {
+                NSDictionary *newDictionary = @{data:@"false"};
+                [_items addObject:newDictionary];
+                [_doneItems removeObjectAtIndex:i];
+                [_itemTableView reloadData];
+            }
+        }
+        
     }
 }
+
 #pragma mark - ShowDetailsDelegate Methods
 
-- (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data atIndex:(long)indexOfElement{
-    NSLog(@"returned Updated Data is: %@ and Index is %ld",data,indexOfElement);
-    NSDictionary *currentDictionary = _items[indexOfElement];
-    NSDictionary *newDictionary = @{data:currentDictionary.allValues.firstObject};
-    _items[indexOfElement] = newDictionary;
-    //_items[indexOfElement][@"name"] = data;
-    [self.itemTableView reloadData];
+- (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data atIndex:indexPath{
+    NSLog(@"returned Updated Data is: %@ and Index is %@",data,indexPath);
+    if ([indexPath section] == 0) {
+        NSDictionary *currentDictionary = _items[[indexPath row] ];
+        NSDictionary *newDictionary = @{data:currentDictionary.allValues.firstObject};
+        _items[[indexPath row] ] = newDictionary;
+        [self.itemTableView reloadData];
+    }
+    else{
+        NSDictionary *currentDictionary = _doneItems[[indexPath row] ];
+        NSDictionary *newDictionary = @{data:currentDictionary.allValues.firstObject};
+        _doneItems[[indexPath row] ] = newDictionary;
+        [self.itemTableView reloadData];
+    }
     
 }
 
@@ -151,45 +205,94 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     NSLog(@"sections");
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSLog(@"Rows");
-    return self.items.count;
+    if (section == 0) {
+        return _items.count;
+    }
+    return self.doneItems.count;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(indexPath.row % 2 == 0){
-        ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        ItemTableViewCellModel *model = [ItemTableViewCellModel new];
-        model.titleText = ((NSDictionary *)_items[indexPath.row]).allKeys.firstObject;
-        model.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
+    
+    NSLog(@"indexpath value %@", indexPath);
+    ItemTableViewCell *cell;
+    ItemTableViewCell2 *cell2;
+    ItemTableViewCellModel *model;
+    ItemTableViewCellModel2 *model2;
+    switch (indexPath.section) {
+        case 0:
+            if(indexPath.row % 2 == 0){
+                ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+                cell.delegate = self;
+                ItemTableViewCellModel *model = [ItemTableViewCellModel new];
+                model.titleText = ((NSDictionary *)_items[indexPath.row]).allKeys.firstObject;
+                model.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
+                
+                if([((NSDictionary *)self.items[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
+                {
+                    model.isSelected = false;
+                }else{
+                    model.isSelected = true;
+                }
+                // model.isSelected = _items[indexPath.row][@"checked"];
+                [cell updateCellWithModel:model];
+                return cell;
+            }
+            cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
+            cell2.delegate2 = self;
+            model2 = [ItemTableViewCellModel2 new];
+            model2.titleText = ((NSDictionary *)_items[indexPath.row]).allKeys.firstObject;
+            model2.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
+            if([((NSDictionary *)self.items[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
+            {
+                model2.isSelected = false;
+            }else{
+                model2.isSelected = true;
+            }
+            [cell2 updateCellWithModel:model2];
+            return cell2;
+            break;
+        case 1:
+            if(indexPath.row % 2 == 0){
+                cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+                cell.delegate = self;
+                model = [ItemTableViewCellModel new];
+                model.titleText = ((NSDictionary *)_doneItems[indexPath.row]).allKeys.firstObject;
+                //model.isSelected = ((NSDictionary *)_doneItems[indexPath.row]).allValues.firstObject;
+                
+                if([((NSDictionary *)self.doneItems[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
+                {
+                    model.isSelected = false;
+                }else{
+                    model.isSelected = true;
+                }
+                // model.isSelected = _items[indexPath.row][@"checked"];
+                [cell updateCellWithModel:model];
+                return cell;
+            }
+            cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
+            cell2.delegate2 = self;
+            model2 = [ItemTableViewCellModel2 new];
+            model2.titleText = ((NSDictionary *)_doneItems[indexPath.row]).allKeys.firstObject;
+            //model2.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
+            if([((NSDictionary *)_doneItems[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
+            {
+                model2.isSelected = false;
+            }else{
+                model2.isSelected = true;
+            }
+            [cell2 updateCellWithModel:model2];
+            return cell2;
+            break;
+        default:
+            return [UITableViewCell new];
+            break;
+    }
 
-        if([((NSDictionary *)self.items[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
-        {
-            model.isSelected = false;
-        }else{
-            model.isSelected = true;
-        }
-       // model.isSelected = _items[indexPath.row][@"checked"];
-        [cell updateCellWithModel:model];
-        return cell;
-    }
-    ItemTableViewCell2 *cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
-    cell2.delegate2 = self;
-    ItemTableViewCellModel2 *model = [ItemTableViewCellModel2 new];
-    model.titleText = ((NSDictionary *)_items[indexPath.row]).allKeys.firstObject;
-    model.isSelected = ((NSDictionary *)_items[indexPath.row]).allValues.firstObject;
-    if([((NSDictionary *)self.items[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
-    {
-        model.isSelected = false;
-    }else{
-        model.isSelected = true;
-    }
-    [cell2 updateCellWithModel:model];
-    return cell2;
 }
 
 

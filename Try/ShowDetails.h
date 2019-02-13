@@ -10,15 +10,15 @@
 
 @class ShowDetails;
 @protocol ShowDetailsDelegate <NSObject>
-- (void) getUpdatedDataFrom:(ShowDetails*)showDetails whereDataIs:(NSString*)data atIndex:(long)indexOfElement;
+- (void) getUpdatedDataFrom:(ShowDetails*)showDetails whereDataIs:(NSString*)data atIndex:(NSIndexPath*)indexPath;
 @end
 
 
 @interface ShowDetails : UIViewController
 
 @property (nonatomic,weak) id<ShowDetailsDelegate> delegate;
-@property (nonatomic, assign) NSString *itemDetail;
-@property (nonatomic) long indexItem;
+@property (nonatomic, strong) NSString *itemDetail;
+@property (nonatomic) NSIndexPath* indexPathOfElement;
 
 @end
 

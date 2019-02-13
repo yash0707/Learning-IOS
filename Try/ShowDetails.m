@@ -44,12 +44,13 @@
     
 }
 
+#pragma mark - View Controller LifeCycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"Inside ShowDetail");
     NSLog(@"Received value is %@",_itemDetail);
-    NSLog(@"Received Index IS: %ld",_indexItem);
+    NSLog(@"Received Index IS: %@",_indexPathOfElement);
     
     self.view.backgroundColor = [UIColor redColor];
     _itemTextField.text = _itemDetail;
@@ -65,10 +66,11 @@
     _cancelButton.frame = CGRectMake(80.0, 260.0, 160.0, 40.0);
 }
 
+#pragma mark - private methods
 - (void) saveButtonMethod{
     NSLog(@"Inside SDsaveButtonMethod");
     NSString *itemToSentBack = _itemTextField.text;
-    [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack atIndex:_indexItem];
+    [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack atIndex:_indexPathOfElement];
     [[self navigationController] popViewControllerAnimated:YES];
     
 }
