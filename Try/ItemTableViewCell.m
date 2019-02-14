@@ -88,8 +88,10 @@ static CGFloat const kImageViewWidth = 30;
     }
     
     BOOL selectedStatusToSentBack = _isCurrentlySelected;
-    [self.delegate updateCellSelectedStatus:self whereStatusIs:selectedStatusToSentBack forItem:_taskTextView.text];
-    
+    if ([self.delegate respondsToSelector:@selector(updateCellSelectedStatus:whereStatusIs:forItem:)]) {
+        [self.delegate updateCellSelectedStatus:self whereStatusIs:selectedStatusToSentBack forItem:_taskTextView.text];
+
+    }
 }
 
 @end

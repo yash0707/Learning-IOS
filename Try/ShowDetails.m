@@ -70,7 +70,10 @@
 - (void) saveButtonMethod{
     NSLog(@"Inside SDsaveButtonMethod");
     NSString *itemToSentBack = _itemTextField.text;
-    [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack atIndex:_indexPathOfElement];
+    if ([self.delegate respondsToSelector:@selector(getUpdatedDataFrom:whereDataIs:atIndex:)]) {
+        [self.delegate getUpdatedDataFrom:self whereDataIs:itemToSentBack atIndex:_indexPathOfElement];
+
+    }
     [[self navigationController] popViewControllerAnimated:YES];
     
 }
