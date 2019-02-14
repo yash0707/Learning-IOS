@@ -63,49 +63,41 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 -(void) receiveNotification:(NSNotification*)notification{
     NSLog(@"In receiveNotification %@",[notification name]);
     NSDictionary *resultDictionary = notification.userInfo;
-    
-    //NSDictionary *itemToPut = @{@"name":resultDictionary[@"item"],@"checked":@"false"}.mutableCopy;
     NSDictionary *itemToPut = @{resultDictionary[@"item"]:@"false"}.mutableCopy;
     NSLog(@"In receiveNotification: %@",itemToPut[@"item"]);
-    
     [self.items addObject:itemToPut];
-   // [self.itemTableView reloadData];
-  
     [self.itemTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
     [[self navigationController]popViewControllerAnimated:YES];
-    
 }
 
 #pragma mark - TableView Delegate methods
 
+- (void)didSelectRowAtIndexPathHelperWithArrayAs:(NSMutableArray *)arrayName andIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"didSelectHelper: %@",arrayName);
+    ShowDetails *showDetail = [[ShowDetails alloc] init];
+    showDetail.itemDetail = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
+    NSLog(@"inside didSelect %@",((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject);
+    showDetail.indexPathOfElement = indexPath;
+    showDetail.delegate = self;
+    [[self navigationController] pushViewController:showDetail animated:YES];
+    NSLog(@"crossed push line");
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     // check for section.
-    if (indexPath.section == 0) {
-        ShowDetails *showDetail = [[ShowDetails alloc] init];
-        showDetail.itemDetail = ((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject;
-        NSLog(@"inside didSelect %@",((NSDictionary *)self.items[indexPath.row]).allKeys.firstObject);
-        //    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
-        showDetail.indexPathOfElement = indexPath;
-        showDetail.delegate = self;
-        
-        [[self navigationController] pushViewController:showDetail animated:YES];
-        NSLog(@"crossed push line");
+    switch ([indexPath section]) {
+        case 0:
+            [self didSelectRowAtIndexPathHelperWithArrayAs:_items andIndexPath:indexPath];
+            break;
+        case 1:
+            [self didSelectRowAtIndexPathHelperWithArrayAs:_doneItems andIndexPath:indexPath];
+            break;
+        default:
+            NSLog(@"VC-didSelectRowAtIndexPath: doesn't pick any section");
+            break;
     }
-    else if (indexPath.section ==1)
-    {
-        ShowDetails *showDetail = [[ShowDetails alloc] init];
-        showDetail.itemDetail = ((NSDictionary *)_doneItems[indexPath.row]).allKeys.firstObject;
-        NSLog(@"inside didSelect %@",((NSDictionary *)_doneItems[indexPath.row]).allKeys.firstObject);
-        //    NSLog(@"indexPathRowIs %ld",(long)indexPath.row);
-        showDetail.indexPathOfElement = indexPath;
-        showDetail.delegate = self;
-        
-        [[self navigationController] pushViewController:showDetail animated:YES];
-        NSLog(@"crossed push line");
-    }
-    
 }
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40)];
     headerView.backgroundColor = section == 0 ? [[UIColor redColor] colorWithAlphaComponent:0.5] : [[UIColor blackColor] colorWithAlphaComponent:0.3];
