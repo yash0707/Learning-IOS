@@ -13,6 +13,8 @@
 @property (nonatomic,strong) UITextField *itemTextField;
 @property (nonatomic,strong) UIButton *saveButton;
 @property (nonatomic,strong) UIButton *cancelButton;
+@property (nonatomic,strong) UITapGestureRecognizer *tapRecognizer;
+
 @end
 
 @implementation AddItemViewController
@@ -28,6 +30,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor redColor];
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [notificationCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    _tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapAnywhere:)];
+    
     
     [self.view addSubview:_cancelButton];
     [self.view addSubview:_saveButton];
@@ -71,6 +80,17 @@
     
 }
 
+-(void) keyboardWillShow:(NSNotification *) note {
+    [self.view addGestureRecognizer:_tapRecognizer];
+}
 
+-(void) keyboardWillHide:(NSNotification *) note
+{
+    [self.view removeGestureRecognizer:_tapRecognizer];
+}
+
+-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
+    [_itemTextField resignFirstResponder];
+}
 
 @end

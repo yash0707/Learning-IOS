@@ -7,12 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-
-
-@protocol ItemTableViewCellDelegate;
+#import "ItemTableViewCellProtocol.h"
 
 @interface ItemTableViewCellModel : NSObject
 
@@ -23,15 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ButtonLeftAlignedItemTableViewCell : UITableViewCell
 
-@property (nonatomic,weak) id delegate;
+@property (nonatomic,weak) id buttonLeftAlignedDelegate;
 - (void)updateCellWithModel:(ItemTableViewCellModel *)model;
 
 @end
-
-@protocol ItemTableViewCellDelegate <NSObject>
-
-- (void) updateCellSelectedStatus:(ButtonLeftAlignedItemTableViewCell*)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
-
-@end
-
-NS_ASSUME_NONNULL_END

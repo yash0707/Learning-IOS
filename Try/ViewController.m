@@ -15,7 +15,7 @@ static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
 static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
-@interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate, ItemTableViewCellDelegate>
+@interface ViewController () <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ShowDetailsDelegate, ItemTableViewCellProtocol>
 
 @property (nonatomic) NSMutableArray *items;
 @property (nonatomic)NSMutableArray *doneItems;
@@ -29,7 +29,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     _items = [NSMutableArray array];
     _doneItems = [NSMutableArray array];
 
-    for(int i=0;i<5;i++) {
+    for(int i=0;i<100;i++) {
         NSMutableString *item = [NSMutableString stringWithFormat:@"item %d",i];
         [_items addObject:[@{item:@"false"}mutableCopy]];
     }
@@ -93,18 +93,34 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     return headerView;
 }
 
-#pragma mark - ItemTableViewCellDelegates Methods
+#pragma mark - ItemTableViewCellProtocol Method
 
-- (void) updateCellSelectedStatus:(ButtonLeftAlignedItemTableViewCell *)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
-    NSLog(@"Delegates-ITVC: updateCellSelected :- %@",_items);
-    [self updateCellSelectedStatusHelperWhereStatusIs:selectedStatusToSentBack forItem:data];
-}
-
-#pragma mark - ItemTableViewCellDelegates2 Methods
-
-- (void) updateCellSelectedStatus2:(ButtonRightAlignedItemTableViewCell *)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
-    [self updateCellSelectedStatusHelperWhereStatusIs:selectedStatusToSentBack forItem:data];
-    NSLog(@"Delegates-ITVC2: updateCellSelected:- %@",_items);
+- (void) updateCellSelectedStatusWhereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
+    NSLog(@"updateCellSelectedHelper: %@",_items);
+    if(selectedStatusToSentBack){
+        for(int i=0;i<_items.count;i++){
+            NSDictionary *dict = _items[i];
+            NSString *currentKey = dict.allKeys.firstObject;
+            if ([currentKey isEqualToString:data]) {
+                NSDictionary *newDictionary = @{data:@"true"};
+                [_items removeObjectAtIndex:i];
+                [_doneItems addObject:newDictionary];
+                [_itemTableView reloadData];
+            }
+        }
+    }else{
+        for(int i=0;i<_doneItems.count;i++){
+            NSDictionary *dict = _doneItems[i];
+            NSString *currentKey = dict.allKeys.firstObject;
+            if ([currentKey isEqualToString:data]) {
+                NSDictionary *newDictionary = @{data:@"false"};
+                [_items addObject:newDictionary];
+                [_doneItems removeObjectAtIndex:i];
+                [_itemTableView reloadData];
+            }
+        }
+        
+    }
 }
 
 #pragma mark - ShowDetailsDelegate Methods
@@ -171,7 +187,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 - (nonnull UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPathHelperWithArrayAs:(NSMutableArray *)arrayName andIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row % 2 == 0){
         ButtonLeftAlignedItemTableViewCell *cell = (ButtonLeftAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
+        cell.buttonLeftAlignedDelegate = self;
         ItemTableViewCellModel *model = [ItemTableViewCellModel new];
         model.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
         model.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
@@ -184,8 +200,8 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
         [cell updateCellWithModel:model];
         return cell;
     }
-    ButtonRightAlignedItemTableViewCell *cell2 = (ButtonRightAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
-    cell2.delegate2 = self;
+    ButtonRightAlignedItemTableViewCell *cellRightAligned = (ButtonRightAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
+    cellRightAligned.buttonRightAlignedDelegate = self;
     ItemTableViewCellModel2 *model2 = [ItemTableViewCellModel2 new];
     model2.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
     model2.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
@@ -195,8 +211,8 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     }else{
         model2.isSelected = true;
     }
-    [cell2 updateCellWithModel:model2];
-    return cell2;
+    [cellRightAligned updateCellWithModel:model2];
+    return cellRightAligned;
 }
 
 - (void) addNewitem:(UIBarButtonItem *)sender{
@@ -204,31 +220,5 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     [[self navigationController] pushViewController:addItemViewController animated:YES];
 }
 
-- (void) updateCellSelectedStatusHelperWhereStatusIs:(BOOL)selectedStatus forItem:(NSString *)data{
-    NSLog(@"updateCellSelectedHelper: %@",_items);
-    if(selectedStatus){
-        for(int i=0;i<_items.count;i++){
-            NSDictionary *dict = _items[i];
-            NSString *currentKey = dict.allKeys.firstObject;
-            if ([currentKey isEqualToString:data]) {
-                NSDictionary *newDictionary = @{data:@"true"};
-                [_items removeObjectAtIndex:i];
-                [_doneItems addObject:newDictionary];
-                [_itemTableView reloadData];
-            }
-        }
-    }else{
-        for(int i=0;i<_doneItems.count;i++){
-            NSDictionary *dict = _doneItems[i];
-            NSString *currentKey = dict.allKeys.firstObject;
-            if ([currentKey isEqualToString:data]) {
-                NSDictionary *newDictionary = @{data:@"false"};
-                [_items addObject:newDictionary];
-                [_doneItems removeObjectAtIndex:i];
-                [_itemTableView reloadData];
-            }
-        }
-        
-    }
-}
+
 @end

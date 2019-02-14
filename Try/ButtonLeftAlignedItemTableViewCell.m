@@ -85,11 +85,10 @@ static CGFloat const kImageViewWidth = 30;
         [_tickButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
     }
     
-    BOOL selectedStatusToSentBack = _isCurrentlySelected;
-    if ([self.delegate respondsToSelector:@selector(updateCellSelectedStatus:whereStatusIs:forItem:)]) {
-        [self.delegate updateCellSelectedStatus:self whereStatusIs:selectedStatusToSentBack forItem:_taskTextView.text];
-
+    if ([_buttonLeftAlignedDelegate respondsToSelector:@selector(updateCellSelectedStatusWhereStatusIs:forItem:)]) {
+        [_buttonLeftAlignedDelegate updateCellSelectedStatusWhereStatusIs:_isCurrentlySelected forItem:_taskTextView.text];
     }
+   
 }
 
 @end

@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@protocol ItemTableViewCellDelegate2;
+#import "ItemTableViewCellProtocol.h"
 
 @interface ItemTableViewCellModel2 : NSObject
 
@@ -19,13 +18,8 @@
 
 @interface ButtonRightAlignedItemTableViewCell : UITableViewCell
 
-@property (nonatomic,weak) id<ItemTableViewCellDelegate2> delegate2;
+@property (nonatomic,weak) id buttonRightAlignedDelegate;
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model;
 
 @end
 
-@protocol ItemTableViewCellDelegate2 <NSObject>
-
-- (void) updateCellSelectedStatus2:(ButtonRightAlignedItemTableViewCell*)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
-
-@end

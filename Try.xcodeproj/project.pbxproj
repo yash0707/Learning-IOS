@@ -59,6 +59,7 @@
 		84E79ADF2210BDA70001C5E0 /* AddItemViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
 		84FA5C992213072C005388B8 /* ButtonRightAlignedItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonRightAlignedItemTableViewCell.h; sourceTree = "<group>"; };
 		84FA5C9A2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonRightAlignedItemTableViewCell.m; sourceTree = "<group>"; };
+		84FA5CA322153B82005388B8 /* ItemTableViewCellProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemTableViewCellProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +125,7 @@
 				84526BCD2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m */,
 				84FA5C992213072C005388B8 /* ButtonRightAlignedItemTableViewCell.h */,
 				84FA5C9A2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m */,
+				84FA5CA322153B82005388B8 /* ItemTableViewCellProtocol.h */,
 			);
 			path = Try;
 			sourceTree = "<group>";
