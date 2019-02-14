@@ -6,25 +6,24 @@
 //  Copyright © 2019 Personal. All rights reserved.
 //
 
-#import "ItemTableViewCell2.h"
+#import "ButtonRightAlignedItemTableViewCell.h"
 
 static CGFloat const kImageViewHeight = 30;
 static CGFloat const kImageViewWidth = 30;
 
-@interface ItemTableViewCell2()
+@interface ButtonRightAlignedItemTableViewCell()
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UITextView *taskTextView;
 @property (nonatomic, strong) UIButton *tickButton;
 @property (nonatomic,assign) BOOL isCurrentlySelected;
 
-
 @end
 
 @implementation ItemTableViewCellModel2
 @end
 
-@implementation ItemTableViewCell2
+@implementation ButtonRightAlignedItemTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -40,7 +39,6 @@ static CGFloat const kImageViewWidth = 30;
     _containerView.frame = CGRectMake(10, 5, selfSize.width - 20, selfSize.height - 10);
     _tickButton.frame = CGRectMake((_containerView.frame.size.width-20-kImageViewWidth), (_containerView.frame.size.height - kImageViewHeight)/2, kImageViewWidth, kImageViewHeight);
     _taskTextView.frame = CGRectMake(0, 0, 100, CGRectGetHeight(_containerView.frame));
-    
 }
 
 #pragma mark - Public methods
@@ -66,14 +64,10 @@ static CGFloat const kImageViewWidth = 30;
     _taskTextView= [[UITextView alloc] init];
     _taskTextView.backgroundColor = [UIColor redColor];
     [_taskTextView setEditable:NO];
-
-    // set properties of textview
     
     _tickButton = [[UIButton alloc] init];
     _tickButton.backgroundColor = [UIColor cyanColor];
     [_tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
-
-    // set properties of imageView
     
     [_containerView addSubview:_taskTextView];
     [_containerView addSubview:_tickButton];
@@ -93,7 +87,6 @@ static CGFloat const kImageViewWidth = 30;
     BOOL selectedStatusToSentBack = _isCurrentlySelected;
     if ([self.delegate2 respondsToSelector:@selector(updateCellSelectedStatus2:whereStatusIs:forItem:)]) {
         [self.delegate2 updateCellSelectedStatus2:self whereStatusIs:selectedStatusToSentBack forItem:_taskTextView.text];
-
     }
 }
 

@@ -81,7 +81,6 @@
     //    NSLog(@"string is: %@",str);
     NSLog(@"Inside SDCancelButtonMethod");
     [[self navigationController] popViewControllerAnimated:YES];
-    
 }
 
 @end

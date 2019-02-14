@@ -6,12 +6,12 @@
 //  Copyright © 2019 Personal. All rights reserved.
 //
 
-#import "ItemTableViewCell.h"
+#import "ButtonLeftAlignedItemTableViewCell.h"
 
 static CGFloat const kImageViewHeight = 30;
 static CGFloat const kImageViewWidth = 30;
 
-@interface ItemTableViewCell ()
+@interface ButtonLeftAlignedItemTableViewCell ()
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UITextView *taskTextView;
@@ -23,7 +23,7 @@ static CGFloat const kImageViewWidth = 30;
 @implementation ItemTableViewCellModel
 @end
 
-@implementation ItemTableViewCell
+@implementation ButtonLeftAlignedItemTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -65,12 +65,10 @@ static CGFloat const kImageViewWidth = 30;
     _taskTextView= [[UITextView alloc] init];
     _taskTextView.backgroundColor = [UIColor redColor];
     [_taskTextView setEditable:NO];
-    // set properties of textview
     
     _tickButton = [[UIButton alloc] init];
     _tickButton.backgroundColor = [UIColor cyanColor];
     [_tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
-    // set properties of imageView
     
     [_containerView addSubview:_taskTextView];
     [_containerView addSubview:_tickButton];

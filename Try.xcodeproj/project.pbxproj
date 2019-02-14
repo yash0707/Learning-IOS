@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84526BCE2212ADDD0011021E /* ItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84526BCD2212ADDD0011021E /* ItemTableViewCell.m */; };
+		84526BCE2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84526BCD2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m */; };
 		84E79A65220FF4410001C5E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79A64220FF4410001C5E0 /* AppDelegate.m */; };
 		84E79A68220FF4410001C5E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79A67220FF4410001C5E0 /* ViewController.m */; };
 		84E79A6D220FF4430001C5E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E79A6C220FF4430001C5E0 /* Assets.xcassets */; };
@@ -16,7 +16,7 @@
 		84E79A88220FF4440001C5E0 /* TryUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79A87220FF4440001C5E0 /* TryUITests.m */; };
 		84E79A9C221072D60001C5E0 /* ShowDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79A9B221072D60001C5E0 /* ShowDetails.m */; };
 		84E79AE02210BDA70001C5E0 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79ADF2210BDA70001C5E0 /* AddItemViewController.m */; };
-		84FA5C9B2213072C005388B8 /* ItemTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA5C9A2213072C005388B8 /* ItemTableViewCell2.m */; };
+		84FA5C9B2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FA5C9A2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		84526BCC2212ADDD0011021E /* ItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemTableViewCell.h; sourceTree = "<group>"; };
-		84526BCD2212ADDD0011021E /* ItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemTableViewCell.m; sourceTree = "<group>"; };
+		84526BCC2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonLeftAlignedItemTableViewCell.h; sourceTree = "<group>"; };
+		84526BCD2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonLeftAlignedItemTableViewCell.m; sourceTree = "<group>"; };
 		84E79A60220FF4410001C5E0 /* Try.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Try.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E79A63220FF4410001C5E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84E79A64220FF4410001C5E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,8 +57,8 @@
 		84E79A9B221072D60001C5E0 /* ShowDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowDetails.m; sourceTree = "<group>"; };
 		84E79ADE2210BDA70001C5E0 /* AddItemViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddItemViewController.h; sourceTree = "<group>"; };
 		84E79ADF2210BDA70001C5E0 /* AddItemViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
-		84FA5C992213072C005388B8 /* ItemTableViewCell2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemTableViewCell2.h; sourceTree = "<group>"; };
-		84FA5C9A2213072C005388B8 /* ItemTableViewCell2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemTableViewCell2.m; sourceTree = "<group>"; };
+		84FA5C992213072C005388B8 /* ButtonRightAlignedItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonRightAlignedItemTableViewCell.h; sourceTree = "<group>"; };
+		84FA5C9A2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonRightAlignedItemTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,10 +120,10 @@
 				84E79A9B221072D60001C5E0 /* ShowDetails.m */,
 				84E79ADE2210BDA70001C5E0 /* AddItemViewController.h */,
 				84E79ADF2210BDA70001C5E0 /* AddItemViewController.m */,
-				84526BCC2212ADDD0011021E /* ItemTableViewCell.h */,
-				84526BCD2212ADDD0011021E /* ItemTableViewCell.m */,
-				84FA5C992213072C005388B8 /* ItemTableViewCell2.h */,
-				84FA5C9A2213072C005388B8 /* ItemTableViewCell2.m */,
+				84526BCC2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.h */,
+				84526BCD2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m */,
+				84FA5C992213072C005388B8 /* ButtonRightAlignedItemTableViewCell.h */,
+				84FA5C9A2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m */,
 			);
 			path = Try;
 			sourceTree = "<group>";
@@ -274,9 +274,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84526BCE2212ADDD0011021E /* ItemTableViewCell.m in Sources */,
+				84526BCE2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m in Sources */,
 				84E79A68220FF4410001C5E0 /* ViewController.m in Sources */,
-				84FA5C9B2213072C005388B8 /* ItemTableViewCell2.m in Sources */,
+				84FA5C9B2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m in Sources */,
 				84E79A73220FF4430001C5E0 /* main.m in Sources */,
 				84E79A65220FF4410001C5E0 /* AppDelegate.m in Sources */,
 				84E79AE02210BDA70001C5E0 /* AddItemViewController.m in Sources */,

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ItemTableViewCell : UITableViewCell
+@interface ButtonLeftAlignedItemTableViewCell : UITableViewCell
 
 @property (nonatomic,weak) id delegate;
 - (void)updateCellWithModel:(ItemTableViewCellModel *)model;
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ItemTableViewCellDelegate <NSObject>
 
-- (void) updateCellSelectedStatus:(ItemTableViewCell*)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
+- (void) updateCellSelectedStatus:(ButtonLeftAlignedItemTableViewCell*)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
 
 @end
 

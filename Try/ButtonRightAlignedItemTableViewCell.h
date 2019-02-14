@@ -17,7 +17,7 @@
 
 @end
 
-@interface ItemTableViewCell2 : UITableViewCell
+@interface ButtonRightAlignedItemTableViewCell : UITableViewCell
 
 @property (nonatomic,weak) id<ItemTableViewCellDelegate2> delegate2;
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model;
@@ -26,6 +26,6 @@
 
 @protocol ItemTableViewCellDelegate2 <NSObject>
 
-- (void) updateCellSelectedStatus2:(ItemTableViewCell2*)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
+- (void) updateCellSelectedStatus2:(ButtonRightAlignedItemTableViewCell*)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString*)data;
 
 @end

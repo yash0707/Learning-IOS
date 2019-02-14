@@ -9,9 +9,8 @@
 #import "ViewController.h"
 #import "ShowDetails.h"
 #import "AddItemViewController.h"
-#import "ItemTableViewCell.h"
-#import "ItemTableViewCell2.h"
-
+#import "ButtonRightAlignedItemTableViewCell.h"
+#import "ButtonLeftAlignedItemTableViewCell.h"
 static NSString * const kCellReuseIdentifier = @"kCellReuseIdentifier";
 static NSString * const kCellReuseIdentifier2 = @"kCellReuseIdentifier2";
 static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
@@ -43,8 +42,8 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     _itemTableView = [[UITableView alloc] init];
     _itemTableView.delegate = self;
     _itemTableView.dataSource = self;
-    [self.itemTableView registerClass:[ItemTableViewCell class] forCellReuseIdentifier:kCellReuseIdentifier];
-    [self.itemTableView registerClass:[ItemTableViewCell2 class] forCellReuseIdentifier:kCellReuseIdentifier2];
+    [self.itemTableView registerClass:[ButtonLeftAlignedItemTableViewCell class] forCellReuseIdentifier:kCellReuseIdentifier];
+    [self.itemTableView registerClass:[ButtonRightAlignedItemTableViewCell class] forCellReuseIdentifier:kCellReuseIdentifier2];
     [self.view addSubview:_itemTableView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receiveNotification:) name:@"notify1" object:nil];
     
@@ -96,17 +95,16 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
 #pragma mark - ItemTableViewCellDelegates Methods
 
-- (void) updateCellSelectedStatus:(ItemTableViewCell *)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
+- (void) updateCellSelectedStatus:(ButtonLeftAlignedItemTableViewCell *)itemTableViewCell whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
     NSLog(@"Delegates-ITVC: updateCellSelected :- %@",_items);
     [self updateCellSelectedStatusHelperWhereStatusIs:selectedStatusToSentBack forItem:data];
 }
 
 #pragma mark - ItemTableViewCellDelegates2 Methods
 
-- (void) updateCellSelectedStatus2:(ItemTableViewCell2 *)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
+- (void) updateCellSelectedStatus2:(ButtonRightAlignedItemTableViewCell *)itemTableViewCell2 whereStatusIs:(BOOL)selectedStatusToSentBack forItem:(NSString *)data{
     [self updateCellSelectedStatusHelperWhereStatusIs:selectedStatusToSentBack forItem:data];
     NSLog(@"Delegates-ITVC2: updateCellSelected:- %@",_items);
-    
 }
 
 #pragma mark - ShowDetailsDelegate Methods
@@ -172,7 +170,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
 - (nonnull UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPathHelperWithArrayAs:(NSMutableArray *)arrayName andIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row % 2 == 0){
-        ItemTableViewCell *cell = (ItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+        ButtonLeftAlignedItemTableViewCell *cell = (ButtonLeftAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
         cell.delegate = self;
         ItemTableViewCellModel *model = [ItemTableViewCellModel new];
         model.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
@@ -186,7 +184,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
         [cell updateCellWithModel:model];
         return cell;
     }
-    ItemTableViewCell2 *cell2 = (ItemTableViewCell2 *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
+    ButtonRightAlignedItemTableViewCell *cell2 = (ButtonRightAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
     cell2.delegate2 = self;
     ItemTableViewCellModel2 *model2 = [ItemTableViewCellModel2 new];
     model2.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;

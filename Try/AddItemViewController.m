@@ -24,6 +24,7 @@
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor redColor];
@@ -33,7 +34,6 @@
     [self.view addSubview:_itemTextField];
 }
 
-
 -(void) parametersInit{
     _itemTextField = [[UITextField alloc] init];
     _itemTextField.backgroundColor = [UIColor brownColor];
@@ -42,14 +42,11 @@
     _saveButton.backgroundColor = [UIColor yellowColor];
     [_saveButton setTitle:@"Save" forState:UIControlStateNormal];
     [_saveButton addTarget:self action:@selector(saveButtonMethod) forControlEvents:UIControlEventTouchUpInside];
-    //    [_saveButton targetForAction:@selector(saveButtonMethod) withSender:self];
 
     _cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _cancelButton.backgroundColor = [UIColor cyanColor];
     [_cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-   // NSString *tempString = @"Checking the passing of parameters in selectors";
     [_cancelButton addTarget:self action:@selector(cancelButtonMethod) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 - (void)viewDidLayoutSubviews {
@@ -59,15 +56,16 @@
     _cancelButton.frame = CGRectMake(80.0, 260.0, 160.0, 40.0);
 }
 
+#pragma mark - private methods
+
 - (void) saveButtonMethod{
     NSLog(@"Inside saveButtonMethod");
-
     NSString *textFieldData = _itemTextField.text;
     NSDictionary *dataDictionary = @{@"item":textFieldData};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"notify1" object:self userInfo:dataDictionary];
 }
+
 - (void) cancelButtonMethod{
-//    NSLog(@"string is: %@",str);
     NSLog(@"Inside CancelButtonMethod");
     [[self navigationController] popViewControllerAnimated:YES];
     
