@@ -174,33 +174,35 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 }
 
 - (nonnull UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPathHelperWithArrayAs:(NSMutableArray *)arrayName andIndexPath:(NSIndexPath *)indexPath{
+    
     if(indexPath.row % 2 == 0){
         ButtonLeftAlignedItemTableViewCell *cellLeftAligned = (ButtonLeftAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
         cellLeftAligned.buttonLeftAlignedDelegate = self;
-        ItemTableViewCellModel *model = [ItemTableViewCellModel new];
-        model.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
-        model.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
+        ItemTableViewCellModel *buttonLeftAlignedModel = [ItemTableViewCellModel new];
+        buttonLeftAlignedModel.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
+        buttonLeftAlignedModel.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
         if([((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
         {
-            model.isSelected = false;
+            buttonLeftAlignedModel.isSelected = false;
         }else{
-            model.isSelected = true;
+            buttonLeftAlignedModel.isSelected = true;
         }
-        [cellLeftAligned updateCellWithModel:model];
+        [cellLeftAligned updateCellWithModel:buttonLeftAlignedModel];
         return cellLeftAligned;
     }
+    
     ButtonRightAlignedItemTableViewCell *cellRightAligned = (ButtonRightAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
     cellRightAligned.buttonRightAlignedDelegate = self;
-    ItemTableViewCellModel2 *model2 = [ItemTableViewCellModel2 new];
-    model2.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
-    model2.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
+    ItemTableViewCellModel2 *buttonRightAlignedModel = [ItemTableViewCellModel2 new];
+    buttonRightAlignedModel.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
+    buttonRightAlignedModel.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
     if([((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
     {
-        model2.isSelected = false;
+        buttonRightAlignedModel.isSelected = false;
     }else{
-        model2.isSelected = true;
+        buttonRightAlignedModel.isSelected = true;
     }
-    [cellRightAligned updateCellWithModel:model2];
+    [cellRightAligned updateCellWithModel:buttonRightAlignedModel];
     return cellRightAligned;
 }
 
