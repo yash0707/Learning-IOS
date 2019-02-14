@@ -20,9 +20,6 @@ static CGFloat const kImageViewWidth = 30;
 
 @end
 
-@implementation ItemTableViewCellModel2
-@end
-
 @implementation ButtonRightAlignedItemTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -43,7 +40,7 @@ static CGFloat const kImageViewWidth = 30;
 
 #pragma mark - Public methods
 
-- (void)updateCellWithModel:(ItemTableViewCellModel2 *)model {
+- (void)updateCellWithModel:(ItemCellDataModel *)model {
     _taskTextLabel.text = model.titleText;
     
     if(model.isSelected){

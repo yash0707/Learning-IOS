@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		84526BCE2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84526BCD2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m */; };
+		848F93A422156A4B003DC326 /* ItemCellDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 848F93A322156A4B003DC326 /* ItemCellDataModel.m */; };
 		84E79A65220FF4410001C5E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79A64220FF4410001C5E0 /* AppDelegate.m */; };
 		84E79A68220FF4410001C5E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E79A67220FF4410001C5E0 /* ViewController.m */; };
 		84E79A6D220FF4430001C5E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E79A6C220FF4430001C5E0 /* Assets.xcassets */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		84526BCC2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonLeftAlignedItemTableViewCell.h; sourceTree = "<group>"; };
 		84526BCD2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonLeftAlignedItemTableViewCell.m; sourceTree = "<group>"; };
+		848F93A222156A4B003DC326 /* ItemCellDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemCellDataModel.h; sourceTree = "<group>"; };
+		848F93A322156A4B003DC326 /* ItemCellDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemCellDataModel.m; sourceTree = "<group>"; };
 		84E79A60220FF4410001C5E0 /* Try.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Try.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E79A63220FF4410001C5E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84E79A64220FF4410001C5E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				84FA5C992213072C005388B8 /* ButtonRightAlignedItemTableViewCell.h */,
 				84FA5C9A2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m */,
 				84FA5CA322153B82005388B8 /* ItemTableViewCellProtocol.h */,
+				848F93A222156A4B003DC326 /* ItemCellDataModel.h */,
+				848F93A322156A4B003DC326 /* ItemCellDataModel.m */,
 			);
 			path = Try;
 			sourceTree = "<group>";
@@ -276,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				848F93A422156A4B003DC326 /* ItemCellDataModel.m in Sources */,
 				84526BCE2212ADDD0011021E /* ButtonLeftAlignedItemTableViewCell.m in Sources */,
 				84E79A68220FF4410001C5E0 /* ViewController.m in Sources */,
 				84FA5C9B2213072C005388B8 /* ButtonRightAlignedItemTableViewCell.m in Sources */,

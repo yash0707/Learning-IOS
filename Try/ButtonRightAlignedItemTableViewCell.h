@@ -8,18 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "ItemTableViewCellProtocol.h"
-
-@interface ItemTableViewCellModel2 : NSObject
-
-@property (nonatomic, strong) NSString *titleText;
-@property (nonatomic, assign) BOOL isSelected;
-
-@end
+#import "ItemCellDataModel.h"
 
 @interface ButtonRightAlignedItemTableViewCell : UITableViewCell
 
 @property (nonatomic,weak) id buttonRightAlignedDelegate;
-- (void)updateCellWithModel:(ItemTableViewCellModel2 *)model;
+- (void)updateCellWithModel:(ItemCellDataModel *)model;
 
 @end
 

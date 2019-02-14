@@ -178,7 +178,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     if(indexPath.row % 2 == 0){
         ButtonLeftAlignedItemTableViewCell *cellLeftAligned = (ButtonLeftAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
         cellLeftAligned.buttonLeftAlignedDelegate = self;
-        ItemTableViewCellModel *buttonLeftAlignedModel = [ItemTableViewCellModel new];
+        ItemCellDataModel *buttonLeftAlignedModel = [ItemCellDataModel new];
         buttonLeftAlignedModel.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
         buttonLeftAlignedModel.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
         if([((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
@@ -193,7 +193,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     
     ButtonRightAlignedItemTableViewCell *cellRightAligned = (ButtonRightAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
     cellRightAligned.buttonRightAlignedDelegate = self;
-    ItemTableViewCellModel2 *buttonRightAlignedModel = [ItemTableViewCellModel2 new];
+    ItemCellDataModel *buttonRightAlignedModel = [ItemCellDataModel new];
     buttonRightAlignedModel.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
     buttonRightAlignedModel.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
     if([((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject isEqualToString:@"false"])
