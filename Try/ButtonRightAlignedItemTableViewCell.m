@@ -14,7 +14,7 @@ static CGFloat const kImageViewWidth = 30;
 @interface ButtonRightAlignedItemTableViewCell()
 
 @property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) UITextView *taskTextView;
+@property (nonatomic, strong) UILabel *taskTextLabel;
 @property (nonatomic, strong) UIButton *tickButton;
 @property (nonatomic,assign) BOOL isCurrentlySelected;
 
@@ -38,13 +38,13 @@ static CGFloat const kImageViewWidth = 30;
     CGSize selfSize = self.frame.size;
     _containerView.frame = CGRectMake(10, 5, selfSize.width - 20, selfSize.height - 10);
     _tickButton.frame = CGRectMake((_containerView.frame.size.width-20-kImageViewWidth), (_containerView.frame.size.height - kImageViewHeight)/2, kImageViewWidth, kImageViewHeight);
-    _taskTextView.frame = CGRectMake(0, 0, 100, CGRectGetHeight(_containerView.frame));
+    _taskTextLabel.frame = CGRectMake(0, 0, 100, CGRectGetHeight(_containerView.frame));
 }
 
 #pragma mark - Public methods
 
 - (void)updateCellWithModel:(ItemTableViewCellModel2 *)model {
-    _taskTextView.text = model.titleText;
+    _taskTextLabel.text = model.titleText;
     
     if(model.isSelected){
         _isCurrentlySelected = YES;
@@ -61,15 +61,14 @@ static CGFloat const kImageViewWidth = 30;
     _containerView = [[UIView alloc] init];
     _containerView.backgroundColor = [UIColor yellowColor];
     
-    _taskTextView= [[UITextView alloc] init];
-    _taskTextView.backgroundColor = [UIColor redColor];
-    [_taskTextView setEditable:NO];
+    _taskTextLabel= [[UILabel alloc] init];
+    _taskTextLabel.backgroundColor = [UIColor redColor];
     
     _tickButton = [[UIButton alloc] init];
     _tickButton.backgroundColor = [UIColor cyanColor];
     [_tickButton addTarget:self action:@selector(changeSelectedState:) forControlEvents:UIControlEventTouchUpInside];
     
-    [_containerView addSubview:_taskTextView];
+    [_containerView addSubview:_taskTextLabel];
     [_containerView addSubview:_tickButton];
     [self addSubview:_containerView];
     
@@ -85,7 +84,7 @@ static CGFloat const kImageViewWidth = 30;
     }
     
     if ([_buttonRightAlignedDelegate respondsToSelector:@selector(updateCellSelectedStatusWhereStatusIs:forItem:)]) {
-        [self.buttonRightAlignedDelegate updateCellSelectedStatusWhereStatusIs:_isCurrentlySelected forItem:_taskTextView.text];
+        [self.buttonRightAlignedDelegate updateCellSelectedStatusWhereStatusIs:_isCurrentlySelected forItem:_taskTextLabel.text];
     }
 }
 

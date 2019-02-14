@@ -102,5 +102,4 @@
 -(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {
     [_itemTextField resignFirstResponder];
 }
-
 @end

@@ -34,7 +34,6 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
         [_items addObject:[@{item:@"false"}mutableCopy]];
     }
     
-    
    // _items = [[[NSUserDefaults standardUserDefaults] objectForKey:kNSUserDefaultsKey] mutableCopy] ?: [NSMutableArray array];
     self.navigationItem.title=@"To-Do-List";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewitem:)];
@@ -58,16 +57,6 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
    // [[NSUserDefaults standardUserDefaults] setObject:[_items copy] forKey:kNSUserDefaultsKey];
 }
 
--(void) receiveNotification:(NSNotification*)notification{
-    NSLog(@"In receiveNotification %@",[notification name]);
-    NSDictionary *resultDictionary = notification.userInfo;
-    NSDictionary *itemToPut = @{resultDictionary[@"item"]:@"false"}.mutableCopy;
-    NSLog(@"In receiveNotification: %@",itemToPut[@"item"]);
-    [self.items addObject:itemToPut];
-    [self.itemTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self navigationController]popViewControllerAnimated:YES];
-}
-
 #pragma mark - TableView Delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
@@ -82,6 +71,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
             NSLog(@"VC-didSelectRowAtIndexPath: doesn't pick any section");
             break;
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -119,7 +109,6 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
                 [_itemTableView reloadData];
             }
         }
-        
     }
 }
 
@@ -186,8 +175,8 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
 - (nonnull UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPathHelperWithArrayAs:(NSMutableArray *)arrayName andIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row % 2 == 0){
-        ButtonLeftAlignedItemTableViewCell *cell = (ButtonLeftAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
-        cell.buttonLeftAlignedDelegate = self;
+        ButtonLeftAlignedItemTableViewCell *cellLeftAligned = (ButtonLeftAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier forIndexPath:indexPath];
+        cellLeftAligned.buttonLeftAlignedDelegate = self;
         ItemTableViewCellModel *model = [ItemTableViewCellModel new];
         model.titleText = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
         model.isSelected = ((NSDictionary *)arrayName[indexPath.row]).allValues.firstObject;
@@ -197,8 +186,8 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
         }else{
             model.isSelected = true;
         }
-        [cell updateCellWithModel:model];
-        return cell;
+        [cellLeftAligned updateCellWithModel:model];
+        return cellLeftAligned;
     }
     ButtonRightAlignedItemTableViewCell *cellRightAligned = (ButtonRightAlignedItemTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier2 forIndexPath:indexPath];
     cellRightAligned.buttonRightAlignedDelegate = self;
@@ -213,6 +202,16 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
     }
     [cellRightAligned updateCellWithModel:model2];
     return cellRightAligned;
+}
+
+-(void) receiveNotification:(NSNotification*)notification{
+    NSLog(@"In receiveNotification %@",[notification name]);
+    NSDictionary *resultDictionary = notification.userInfo;
+    NSDictionary *itemToPut = @{resultDictionary[@"item"]:@"false"}.mutableCopy;
+    NSLog(@"In receiveNotification: %@",itemToPut[@"item"]);
+    [self.items addObject:itemToPut];
+    [self.itemTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.items.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self navigationController]popViewControllerAnimated:YES];
 }
 
 - (void) addNewitem:(UIBarButtonItem *)sender{
