@@ -1,14 +1,14 @@
 //
-//  ShowDetails.m
+//  ShowDetailsViewController.m
 //  Try
 //
 //  Created by Admin on 10/02/19.
 //  Copyright © 2019 Personal. All rights reserved.
 //
 
-#import "ShowDetails.h"
+#import "ShowDetailsViewController.h"
 
-@interface ShowDetails ()
+@interface ShowDetailsViewController ()
 
 @property (nonatomic,strong) UITextField *itemTextField;
 @property (nonatomic,strong) UIButton *saveButton;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation ShowDetails
+@implementation ShowDetailsViewController
 
 - (instancetype) init {
     if(self = [super init]) {

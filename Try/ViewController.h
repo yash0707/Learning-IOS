@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ShowDetails.h"
+#import "ShowDetailsViewController.h"
 
 @interface ViewController : UIViewController
 

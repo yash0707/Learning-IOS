@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "ShowDetails.h"
+#import "ShowDetailsViewController.h"
 #import "AddItemViewController.h"
 #import "ButtonRightAlignedItemTableViewCell.h"
 #import "ButtonLeftAlignedItemTableViewCell.h"
@@ -114,7 +114,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
 #pragma mark - ShowDetailsDelegate Methods
 
-- (void)getUpdatedDataFrom:(ShowDetails *)showDetails whereDataIs:(NSString *)data atIndex:indexPath{
+- (void)getUpdatedDataFrom:(ShowDetailsViewController *)showDetails whereDataIs:(NSString *)data atIndex:indexPath{
     NSLog(@"returned Updated Data is: %@ and Index is %@",data,indexPath);
     if ([indexPath section] == 0) {
         NSDictionary *currentDictionary = _items[[indexPath row] ];
@@ -164,7 +164,7 @@ static NSString * const kNSUserDefaultsKey = @"kNSUserDefaultsKey";
 
 - (void)didSelectRowAtIndexPathHelperWithArrayAs:(NSMutableArray *)arrayName andIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"didSelectHelper: %@",arrayName);
-    ShowDetails *showDetail = [[ShowDetails alloc] init];
+    ShowDetailsViewController *showDetail = [[ShowDetailsViewController alloc] init];
     showDetail.itemDetail = ((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject;
     NSLog(@"inside didSelect %@",((NSDictionary *)arrayName[indexPath.row]).allKeys.firstObject);
     showDetail.indexPathOfElement = indexPath;

@@ -1,5 +1,5 @@
 //
-//  ShowDetails.h
+//  ShowDetailsViewController.h
 //  Try
 //
 //  Created by Admin on 10/02/19.
@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class ShowDetails;
+@class ShowDetailsViewController;
 @protocol ShowDetailsDelegate <NSObject>
-- (void) getUpdatedDataFrom:(ShowDetails*)showDetails whereDataIs:(NSString*)data atIndex:(NSIndexPath*)indexPath;
+- (void) getUpdatedDataFrom:(ShowDetailsViewController*)showDetails whereDataIs:(NSString*)data atIndex:(NSIndexPath*)indexPath;
 @end
 
 
-@interface ShowDetails : UIViewController
+@interface ShowDetailsViewController : UIViewController
 
 @property (nonatomic,weak) id<ShowDetailsDelegate> delegate;
 @property (nonatomic, strong) NSString *itemDetail;
